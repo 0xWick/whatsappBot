@@ -1,23 +1,46 @@
 const fs = require('fs');
 const ytdl = require('ytdl-core');
-// TypeScript: import ytdl from 'ytdl-core'; with --esModuleInterop
-// TypeScript: import * as ytdl from 'ytdl-core'; with --allowSyntheticDefaultImports
-// TypeScript: import ytdl = require('ytdl-core'); with neither of the above
 
-
+// Define a function for downloading a YouTube video
 async function youtubeDownload(user_query) {
+  try {
+    const parts = user_query.split(" ");
+    parts.shift();
 
-  const parts = user_query.split(" ");
-  parts.shift()
+    const url = parts[0];
+    const videoPath = 'youtubeVideo.mp4'; // Define the path where you want to save the video
 
-  const url = parts[0]
-  
-  console.log("Downloading Video...")
+    console.log("Downloading Video...");
 
-  const result = ytdl(url).pipe(fs.createWriteStream('youtubeVideo.mp4')).on("finish", () => {return true})
+    // Download the video using ytdl-core
+    const videoStream = ytdl(url, {quality: "lowest"});
 
+    videoStream.pipe(fs.createWriteStream(videoPath));
+
+    return new Promise((resolve, reject) => {
+      videoStream.on('end', () => {
+        console.log("Video Downloaded!");
+        resolve(videoPath);
+      });
+
+      videoStream.on('error', (error) => {
+        console.error("Error downloading video:", error);
+        reject(error);
+      });
+    });
+  } catch (error) {
+    console.error("Error while downloading video:", error);
+    throw error;
+  }
+}
+async function main() {
+
+  const result = await youtubeDownload("!YoutubeDownload https://www.youtube.com/watch?v=nqUN530Rgtw&pp=ygUTU3VtbWVyIGhpZ2ggRGhpbGxvbg%3D%3D")
+  console.log("Result:")
+  console.log(result)
 }
 
-youtubeDownload("!YoutubeDownload https://www.youtube.com/watch?v=c20XsM9BWEM&pp=ygUSU3BhaW4gUHVuamFiaSBTb25n")
+main()
 
-module.exports = {youtubeDownload}
+
+module.exports = { youtubeDownload };

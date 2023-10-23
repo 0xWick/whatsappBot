@@ -110,17 +110,22 @@ client.on('message', async (message) => {
 // Youtube Download
 client.on('message', async (message) => {
     if (message.body.includes("!YoutubeDownload")) {
+
         const chat = await message.getChat()
+
         // Request Video Download
-        await youtubeDownload(message.body)
+        // Wait for video download
         
+        await youtubeDownload(message.body)
+        console.log("Video Downloaded!")
+
         // Get the Video from Local
         const videoPath = 'youtubeVideo.mp4'; // Replace with the actual path to your video
         const media = MessageMedia.fromFilePath(videoPath);
 
+        console.log("Sending Video...")
         await chat.sendMessage(media, { caption: 'Youtube Video' });
-
-
+        console.log("Video Sent!")
 
     }
 });
