@@ -33,14 +33,14 @@ async function youtubeDownload(user_query) {
     throw error;
   }
 }
-async function main() {
+// async function main() {
 
-  const result = await youtubeDownload("!YoutubeDownload https://www.youtube.com/watch?v=nqUN530Rgtw&pp=ygUTU3VtbWVyIGhpZ2ggRGhpbGxvbg%3D%3D")
-  console.log("Result:")
-  console.log(result)
-}
+//   const result = await youtubeDownload("!YoutubeDownload https://www.youtube.com/watch?v=nqUN530Rgtw&pp=ygUTU3VtbWVyIGhpZ2ggRGhpbGxvbg%3D%3D")
+//   console.log("Result:")
+//   console.log(result)
+// }
 
-main()
+// main()
 
 
 module.exports = { youtubeDownload };
